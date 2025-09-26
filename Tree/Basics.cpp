@@ -1,4 +1,5 @@
 #include<iostream>
+#include<queue>
 using namespace std;
 class treeNode{
     public:
@@ -42,8 +43,8 @@ void preorderTreversal(treeNode* root){
         return; 
     }
     cout << root->data << " ";
-    inorderTraversal(root->left);
-    inorderTraversal(root->right);
+    preorderTreversal(root->left);
+    preorderTreversal(root->right);
 }
 
 void postorderTreversal(treeNode* root){
@@ -54,7 +55,89 @@ void postorderTreversal(treeNode* root){
      postorderTreversal(root->right);
      cout << root->data<<" ";
 }
+
+treeNode* getLastNode(treeNode* root) {
+    queue<treeNode*> q;
+    q.push(root);
+    treeNode* node = nullptr;
+    while (!q.empty()) {
+        node = q.front();
+        q.pop();
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+    }
+    return node;
+}
+
+void deleteLastNode(treeNode* root, treeNode* delNode) {
+    queue<treeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        treeNode* node = q.front();
+        q.pop();
+
+        if (node->left) {
+            if (node->left == delNode) {
+                delete node->left;
+                node->left = nullptr;
+                return;
+            } else {
+                q.push(node->left);
+            }
+        }
+
+        if (node->right) {
+            if (node->right == delNode) {
+                delete node->right;
+                node->right = nullptr;
+                return;
+            } else {
+                q.push(node->right);
+            }
+        }
+    }
+}
+
+treeNode* deleteNode(treeNode* root, int value) {
+    if (!root) return nullptr;
+    if (!root->left && !root->right) {
+        if (root->data == value) {
+            delete root;
+            return nullptr;
+        }
+        return root;
+    }
+
+    queue<treeNode*> q;
+    q.push(root);
+
+    treeNode* targetNode = nullptr;
+    treeNode* node = nullptr;
+
+    while (!q.empty()) {
+        node = q.front();
+        q.pop();
+        if (node->data == value) {
+            targetNode = node;
+        }
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+    }
+
+    if (targetNode) {
+        treeNode* deepest = getLastNode(root);
+        targetNode->data = deepest->data; // copy deepest node data
+        deleteLastNode(root, deepest);     // delete deepest node
+    }
+
+    return root;
+}
 int main(){
     treeNode* root=createTree();
     inorderTraversal(root);
+    cout << endl<< "Enter the value you want to delete:";
+    int val;
+    cin >> val;
+    deleteNode(root,val);
+    cout << root->data;
 }
