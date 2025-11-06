@@ -65,9 +65,9 @@ int main() {
     }
     
     Node* head2 = NULL;
-    int n;
+    int m;
     cout << "Enter number of nodes in 2nd list: ";
-    cin >> n;
+    cin >> m;
 
     for (int i = 0; i < n; i++) {
         int val;
