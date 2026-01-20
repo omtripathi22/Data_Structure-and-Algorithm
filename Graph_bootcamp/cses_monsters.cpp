@@ -65,7 +65,6 @@ string reachDestination(vector<vector<char>> &adj, vector<vector<int>> &timeStam
                     break;
                 }
 
-                //  FIX: allow timeStamp == -1 (monster never reaches)
                 if (adj[newRow][newCol] != '#' && !vis[newRow][newCol] &&
                     (timeStamp[newRow][newCol] == -1 ||
                      timeStamp[newRow][newCol] > currTime))
