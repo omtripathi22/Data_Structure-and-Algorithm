@@ -74,7 +74,6 @@ int main()
         {
             flag = true;
             parent[v]=u;
-            //cout << 12 <<" ";
             cycle = hasCycle(v, u, parent, n);
             break;
         }
