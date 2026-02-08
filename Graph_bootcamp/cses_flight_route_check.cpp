@@ -51,7 +51,8 @@ int main()
     {
         if (!reachable[i])
         {
-            cout << "NO" << endl<< 1 << " " << i;
+            cout << "NO" << endl
+                 << 1 << " " << i;
             return 0;
         }
     }
